@@ -26,5 +26,8 @@ jobs:
         run: |
           cd runner
           make docker-build-default
-      - name: Push docker image to ghcr.io
+          make docker-build-dind
+      - name: Push default docker image to ghcr.io
         run: docker push ghcr.io/vector-im/actions-runner:ubuntu-22.04
+      - name: Push dind docker image to ghcr.io
+        run: docker push ghcr.io/vector-im/actions-runner-dind:ubuntu-22.04
