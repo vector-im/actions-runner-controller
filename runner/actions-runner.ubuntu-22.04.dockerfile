@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 
 ARG TARGETPLATFORM
 ARG RUNNER_VERSION
-ARG RUNNER_CONTAINER_HOOKS_VERSION=0.2.0
+ARG RUNNER_CONTAINER_HOOKS_VERSION=0.3.1-element
 # Docker and Docker Compose arguments
 ARG CHANNEL=stable
 ARG DOCKER_VERSION=20.10.23
@@ -64,7 +64,7 @@ RUN mkdir /opt/hostedtoolcache \
     && chmod g+rwx /opt/hostedtoolcache
 
 RUN cd "$RUNNER_ASSETS_DIR" \
-    && curl -fLo runner-container-hooks.zip https://github.com/actions/runner-container-hooks/releases/download/v${RUNNER_CONTAINER_HOOKS_VERSION}/actions-runner-hooks-k8s-${RUNNER_CONTAINER_HOOKS_VERSION}.zip \
+    && curl -fLo runner-container-hooks.zip https://github.com/vector-im/runner-container-hooks/releases/download/v${RUNNER_CONTAINER_HOOKS_VERSION}/actions-runner-hooks-k8s-${RUNNER_CONTAINER_HOOKS_VERSION}.zip \
     && unzip ./runner-container-hooks.zip -d ./k8s \
     && rm -f runner-container-hooks.zip
 
