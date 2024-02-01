@@ -67,7 +67,7 @@ RUN mkdir /opt/hostedtoolcache \
     && chmod g+rwx /opt/hostedtoolcache
 
 RUN cd "$RUNNER_ASSETS_DIR" \
-    && curl -fLo runner-container-hooks.zip https://github.com/actions/runner-container-hooks/releases/download/v${RUNNER_CONTAINER_HOOKS_VERSION}/actions-runner-hooks-k8s-${RUNNER_CONTAINER_HOOKS_VERSION}.zip \
+    && curl -fLo runner-container-hooks.zip https://github.com/element-hq/runner-container-hooks/releases/download/v${RUNNER_CONTAINER_HOOKS_VERSION}/actions-runner-hooks-k8s-${RUNNER_CONTAINER_HOOKS_VERSION}.zip \
     && unzip ./runner-container-hooks.zip -d ./k8s \
     && rm -f runner-container-hooks.zip
 

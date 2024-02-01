@@ -1,4 +1,4 @@
-DOCKER_USER ?= summerwind
+DOCKER_USER ?= ghcr.io/element-hq
 DOCKER ?= docker
 DEFAULT_RUNNER_NAME ?= ${DOCKER_USER}/actions-runner
 DIND_RUNNER_NAME ?= ${DOCKER_USER}/actions-runner-dind
@@ -7,7 +7,7 @@ OS_IMAGE ?= ubuntu-22.04
 TARGETPLATFORM ?= $(shell arch)
 
 RUNNER_VERSION ?= 2.312.0
-RUNNER_CONTAINER_HOOKS_VERSION ?= 0.5.0
+RUNNER_CONTAINER_HOOKS_VERSION ?= 0.5.0-element
 DOCKER_VERSION ?= 24.0.7
 
 # default list of platforms for which multiarch image is built
