@@ -18,28 +18,32 @@ on:
         default: false
 
 permissions:
- contents: write 
+ contents: write
  packages: write
 
 env:
   TARGET_ORG: actions-runner-controller
   TARGET_REPO: actions-runner-controller
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   release-controller:
     name: Release
     runs-on: ubuntu-latest
     # gha-runner-scale-set has its own release workflow.
-    # We don't want to publish a new actions-runner-controller image 
+    # We don't want to publish a new actions-runner-controller image
     # we release gha-runner-scale-set.
     if: ${{ !startsWith(github.event.inputs.release_tag_name, 'gha-runner-scale-set-') }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v4
         with:
-          go-version: '1.18.2'
+          go-version-file: 'go.mod'
 
       - name: Install tools
         run: |

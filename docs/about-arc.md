@@ -1,5 +1,8 @@
 # About ARC
 
+> [!WARNING]
+> This documentation covers the legacy mode of ARC (resources in the `actions.summerwind.net` namespace). If you're looking for documentation on the newer autoscaling runner scale sets, it is available in [GitHub Docs](https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller/quickstart-for-actions-runner-controller). To understand why these resources are considered legacy (and the benefits of using the newer autoscaling runner scale sets), read [this discussion (#2775)](https://github.com/actions/actions-runner-controller/discussions/2775).
+
 ## Introduction
 This document provides a high-level overview of Actions Runner Controller (ARC). ARC enables running Github Actions Runners on Kubernetes (K8s) clusters.
 
@@ -23,7 +26,7 @@ Self-hosted runners offer more control of hardware, operating system, and softwa
 Self-hosted runners can be physical, virtual, in a container, on-premises, or in a cloud.
 - Traditional Deployment is having a physical machine, with OS and apps on it. The runner runs on this machine and executes any jobs. It comes with the cost of owning and operating the hardware 24/7 even if it isn't in use that entire time. 
 - Virtualized deployments are simpler to manage. Each runner runs on a virtual machine (VM) that runs on a host. There could be multiple such VMs running on the same host. VMs are complete OS’s and might take time to bring up everytime a clean environment is needed to run workflows.
-- Containerized deployments are similar to VMs, but instead of bringing up entire VM’s, a container gets deployed.Kubernetes (K8s) provides a scalable and reproducible environment for containerized workloads. They are lightweight, loosely coupled, highly efficient and can be managed centrally. There are advantages to using Kubernetes (outlined "[here](https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/)."), but it is more complicated and less widely-understood than the other options. A managed provider makes this much simpler to run at scale.
+- Containerized deployments are similar to VMs, but instead of bringing up entire VM’s, a container gets deployed. Kubernetes (K8s) provides a scalable and reproducible environment for containerized workloads. They are lightweight, loosely coupled, highly efficient and can be managed centrally. There are advantages to using Kubernetes (outlined "[here](https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/)."), but it is more complicated and less widely-understood than the other options. A managed provider makes this much simpler to run at scale.
 
 *Actions Runner Controller(ARC) makes it simpler to run self hosted runners on K8s managed containers.*
 
@@ -172,7 +175,7 @@ If there is a need to include packages in the runner image for which there is no
 FROM summerwind/actions-runner:latest
 
 RUN sudo apt-get update -y \
-  && sudo apt-get install $YOUR_PACKAGES
+  && sudo apt-get install $YOUR_PACKAGES \
   && sudo rm -rf /var/lib/apt/lists/*
 ```
 
