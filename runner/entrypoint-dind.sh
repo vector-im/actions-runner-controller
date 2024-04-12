@@ -4,7 +4,7 @@ source graceful-stop.sh
 trap graceful_stop TERM
 
 sudo /bin/bash <<SCRIPT
-mkdir -p /etc/docker
+mkdir -p /etc/docker /etc/buildkit
 
 if [ ! -f /etc/docker/daemon.json ]; then
   echo "{}" > /etc/docker/daemon.json
@@ -22,10 +22,20 @@ fi
 
 if [ -n "${DOCKER_REGISTRY_MIRROR}" ]; then
 jq ".\"registry-mirrors\"[0] = \"${DOCKER_REGISTRY_MIRROR}\"" /etc/docker/daemon.json > /tmp/.daemon.json && mv /tmp/.daemon.json /etc/docker/daemon.json
+cat > /etc/buildkit/buildkitd.toml <<- EOM
+[registry."docker.io"]
+  mirrors = ["`echo "${DOCKER_REGISTRY_MIRROR}" | sed -e 's|^.*://||;s|/$||'`"]
+EOM
 fi
 
 if [ -n "${DOCKER_INSECURE_REGISTRY}" ]; then
 jq ".\"insecure-registries\"[0] = \"${DOCKER_INSECURE_REGISTRY}\"" /etc/docker/daemon.json > /tmp/.daemon.json && mv /tmp/.daemon.json /etc/docker/daemon.json
+cat > /etc/buildkit/buildkitd.toml <<- EOM
+[registry."docker.io"]
+  mirrors = ["`echo "${DOCKER_REGISTRY_MIRROR}" | sed -e 's|^.*://||;s|/$||'`"]
+  http = true
+  insecure = true
+EOM
 fi
 SCRIPT
 

@@ -6,6 +6,7 @@ trap graceful_stop TERM
 log.notice "Writing out Docker config file"
 /bin/bash <<SCRIPT
 
+mkdir -p  /home/runner/.config/docker/ /home/runner/.config/buildkit
 if [ ! -f /home/runner/.config/docker/daemon.json ]; then
   echo "{}" > /home/runner/.config/docker/daemon.json
 fi
@@ -22,6 +23,10 @@ fi
 
 if [ -n "${DOCKER_REGISTRY_MIRROR}" ]; then
 jq ".\"registry-mirrors\"[0] = \"${DOCKER_REGISTRY_MIRROR}\"" /home/runner/.config/docker/daemon.json > /tmp/.daemon.json && mv /tmp/.daemon.json /home/runner/.config/docker/daemon.json
+cat > /home/runner/.config/buildkit/buildkitd.toml <<- EOM
+[registry."docker.io"]
+  mirrors = ["`echo "${DOCKER_REGISTRY_MIRROR}" | sed -e 's|^.*://||;s|/$||'`"]
+EOM
 fi
 SCRIPT
 
